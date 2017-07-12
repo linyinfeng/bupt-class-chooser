@@ -51,10 +51,18 @@ function poll() {
     let inforUpContent = getFrameEleByName(mainFrame, "inforUpContent");
     let form;
     if (inforUpContent && (form = getFrameEleByName(inforUpContent, "xkActionForm"))) {
-        return setInterval(req.bind(null, form), 100);
+        return setInterval(req.bind(null, form), getInvervalInputValue());
     } else {
         log("Unknown error");
     }
+}
+
+function getInvervalInputValue() {
+    let input = document.getElementById("user_script_frame").contentDocument.
+        getElementById("interval_input");
+    if (input.value < Number(input.getAttribute("value")))
+        input.value = 10;
+    return input.value;
 }
 
 function getFrameEleByName(frame, name) {
@@ -97,6 +105,7 @@ function startNew(info_div) {
     frame.scrolling = "auto";
     frame.style.borderStyle = "solid";
     frame.style.borderWidth = "0.125em 0 0 0";
+    frame.setAttribute("id", "user_script_frame");
 
     let body = frame.contentDocument.getElementsByTagName('body')[0];
     body.style.font = "1em Monospace";
@@ -116,6 +125,13 @@ function startNew(info_div) {
     startButton.innerHTML = "Click to start a new polling";
     startButton.style.margin = "0.5em";
     startButton.addEventListener("click", startNew.bind(null, info_div), false);
+
+    let intervalInput = document.createElement("input");
+    button_div.appendChild(intervalInput);
+    intervalInput.setAttribute("type", "number");
+    intervalInput.setAttribute("value", "100");
+    intervalInput.setAttribute("id", "interval_input");
+    intervalInput.setAttribute("min", "10");
 
     let stopButton = document.createElement("button");
     button_div.appendChild(stopButton);
