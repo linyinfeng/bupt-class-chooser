@@ -79,7 +79,7 @@ function stopAll() {
 }
 
 function startNew(info_div) {
-    intervalIDs.push(poll(info_div));
+    intervalIDs.push(poll());
 }
 
 (function() {
