@@ -94,7 +94,6 @@ function startNew(info_div) {
 
     let frame = document.createElement("frame");
     frameset.appendChild(frame);
-    frame.framespacing = "30";
     frame.scrolling = "auto";
     frame.style.borderStyle = "solid";
     frame.style.borderWidth = "0.125em 0 0 0";
