@@ -67,14 +67,14 @@ function getFrameEleByName(frame, name) {
     return frame.contentDocument.getElementsByName(name)[0];
 }
 
-function output(info_parent, str) {
+function output(str) {
     function genTimeTag() {
         let date = new Date();
         return '[' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + ']';
     }
 
     let p = document.createElement('p');
-    info_parent.insertBefore(p, info_parent.firstChild);
+    this.insertBefore(p, this.firstChild);
     p.innerHTML = genTimeTag() + ' ' + str;
     return p;
 }
@@ -88,11 +88,12 @@ function startNew() {
     intervalIDs.push(poll());
 }
 
-(function() {
+function main() {
     'use strict';
 
     let html = document.getElementsByTagName('html')[0];
     let frameset = html.getElementsByTagName('frameset')[0];
+    if (!frameset) return;
     frameset.setAttribute('rows', '48,*,200');
 
     let frame = document.createElement('frame');
@@ -102,35 +103,30 @@ function startNew() {
     frame.style.borderWidth = '0.125em 0 0 0';
     frame.setAttribute('id', 'user_script_frame');
 
-    let body = frame.contentDocument.getElementsByTagName('body')[0];
+    let userScriptDoc = frame.contentDocument;
+    let body = userScriptDoc.getElementsByTagName('body')[0];
     body.style.font = '1em Monospace';
     body.style.lineHeight = '20%';
     body.style.margin = '0';
 
-    let button_div = document.createElement('div');
-    let info_div = document.createElement('div');
-    body.appendChild(button_div);
-    body.appendChild(info_div);
-    button_div.style.borderBottom = '1px dashed';
+    body.innerHTML =`
+        <div id="button_div" style="border-bottom: 1px dashed;">
+            <button id="start_button" style="margin: 0.5em;">Start a new polling</button>
+            <input id="interval_input" type="number" value=100 min=10>
+            <button id="stop_button" style="margin: 0.5em;">Stop all</button>
+        </div>
+        <div id="info_div"">
+        </div>
+    `;
 
-    log = output.bind(null, info_div);
+    let info_div =  userScriptDoc.getElementById('info_div');
+    log = output.bind(info_div);
 
-    let startButton = document.createElement('button');
-    button_div.appendChild(startButton);
-    startButton.innerHTML = 'Click to start a new polling';
-    startButton.style.margin = '0.5em';
+    let startButton = userScriptDoc.getElementById('start_button');
     startButton.addEventListener('click', startNew, false);
 
-    let intervalInput = document.createElement('input');
-    button_div.appendChild(intervalInput);
-    intervalInput.setAttribute('type', 'number');
-    intervalInput.setAttribute('value', '100');
-    intervalInput.setAttribute('id', 'interval_input');
-    intervalInput.setAttribute('min', '10');
-
-    let stopButton = document.createElement('button');
-    button_div.appendChild(stopButton);
-    stopButton.innerHTML = 'Click to stop';
-    stopButton.style.margin = '0.5em';
+    let stopButton = userScriptDoc.getElementById('stop_button');
     stopButton.addEventListener ('click', stopAll, false);
-})();
+}
+
+main();
