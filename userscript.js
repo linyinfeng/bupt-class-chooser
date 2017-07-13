@@ -95,9 +95,6 @@ function startNew() {
     let frameset = html.getElementsByTagName('frameset')[0];
     frameset.setAttribute('rows', '48,*,200');
 
-    let bottomFrame = document.getElementsByName('bottomFrame')[0];
-    bottomFrame.removeAttribute('noresize');
-
     let frame = document.createElement('frame');
     frameset.appendChild(frame);
     frame.scrolling = 'auto';
@@ -122,7 +119,7 @@ function startNew() {
     button_div.appendChild(startButton);
     startButton.innerHTML = 'Click to start a new polling';
     startButton.style.margin = '0.5em';
-    startButton.addEventListener('click', startNew.bind(null, info_div), false);
+    startButton.addEventListener('click', startNew, false);
 
     let intervalInput = document.createElement('input');
     button_div.appendChild(intervalInput);
