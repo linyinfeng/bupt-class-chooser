@@ -115,7 +115,7 @@ function main() {
 			<input id="interval_input" type="number" value=100 min=10>
 			<button id="stop_button" style="margin: 0.5em;">Stop all</button>
 		</div>
-		<div id="info_div"">
+		<div id="info_div">
 		</div>
 	`;
 
