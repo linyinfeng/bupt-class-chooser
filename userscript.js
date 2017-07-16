@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Class Chooser
 // @namespace    http://0yinf.cn/
-// @version      0.1
+// @version      0.0.1
 // @description  Class Chooser for jwxt.bupt.edu.cn
 // @author       Yinfeng Lin
 // @match        http://jwxt.bupt.edu.cn/jwLoginAction.do
