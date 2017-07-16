@@ -29,7 +29,7 @@
 	body.style.lineHeight = '20%';
 	body.style.margin = '0';
 
-	body.innerHTML =`
+	body.innerHTML = `
 		<div id="button_div" style="border-bottom: 1px dashed;">
 			<button id="start_button" style="margin: 0.5em;">Start a new polling</button>
 			<button id="refresh_button" style="margin: 0.5em;">Refresh data</button>
@@ -45,7 +45,7 @@
 		</div>
 	`;
 
-	var info_div =  userScriptDoc.getElementById('info_div');
+	var info_div = userScriptDoc.getElementById('info_div');
 	var input = userScriptDoc.getElementById('interval_input');
 	var waitingCounter = userScriptDoc.getElementById('waiting-counter');
 
@@ -57,13 +57,13 @@
 		this.selected = false;
 		this.waitingCount = 0;
 	}
-	Poller.prototype.output = function(msg) {
+	Poller.prototype.output = function (msg) {
 		outputToElement(info_div, timeTag() + ' Poller ' + this.name + ': ' + msg);
 	};
-	Poller.prototype.updateWaitingCounter = function() {
+	Poller.prototype.updateWaitingCounter = function () {
 		waitingCounter.innerText = this.waitingCount;
 	};
-	Poller.prototype.handleResponse = function(resp) {
+	Poller.prototype.handleResponse = function (resp) {
 		var msg = getMessage(resp);
 		if (!this.selected) {
 			this.output('Return: ' + msg);
@@ -83,8 +83,8 @@
 			this.intervalIndicator = setInterval(function () {
 				var http = new XMLHttpRequest();
 				http.open('POST', this.url, true);
-				http.onreadystatechange = function() {
-					if(http.readyState == 4 ) {
+				http.onreadystatechange = function () {
+					if (http.readyState == 4) {
 						--this.waitingCount;
 						this.updateWaitingCounter();
 						if (http.status == 200)
@@ -115,7 +115,7 @@
 		var inforUpContent = getFrameEleByName(mainFrame, 'inforUpContent');
 		var form;
 		if (inforUpContent && (form = getFrameEleByName(inforUpContent, 'xkActionForm'))) {
-			this.data =  new FormData(form);
+			this.data = new FormData(form);
 			this.output('Data refreshed');
 		} else {
 			this.output('Error, Data refresh failed');
